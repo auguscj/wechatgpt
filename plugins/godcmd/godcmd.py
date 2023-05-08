@@ -17,39 +17,41 @@ from config import conf, load_config
 from plugins import *
 
 # 定义指令集
-COMMANDS = {
-    "help": {
-        "alias": ["help", "帮助"],
-        "desc": "回复此帮助",
-    },
-    "helpp": {
-        "alias": ["help", "帮助"],  # 与help指令共用别名，根据参数数量区分
-        "args": ["插件名"],
-        "desc": "回复指定插件的详细帮助",
-    },
-    "auth": {
-        "alias": ["auth", "认证"],
-        "args": ["口令"],
-        "desc": "管理员认证",
-    },
-    "set_openai_api_key": {
-        "alias": ["set_openai_api_key"],
-        "args": ["api_key"],
-        "desc": "设置你的OpenAI私有api_key",
-    },
-    "reset_openai_api_key": {
-        "alias": ["reset_openai_api_key"],
-        "desc": "重置为默认的api_key",
-    },
-    "id": {
-        "alias": ["id", "用户"],
-        "desc": "获取用户id",  # wechaty和wechatmp的用户id不会变化，可用于绑定管理员
-    },
-    "reset": {
-        "alias": ["reset", "重置会话"],
-        "desc": "重置会话",
-    },
-}
+# COMMANDS = {
+#     "help": {
+#         "alias": ["help", "帮助"],
+#         "desc": "回复此帮助",
+#     },
+#     "helpp": {
+#         "alias": ["help", "帮助"],  # 与help指令共用别名，根据参数数量区分
+#         "args": ["插件名"],
+#         "desc": "回复指定插件的详细帮助",
+#     },
+#     "auth": {
+#         "alias": ["auth", "认证"],
+#         "args": ["口令"],
+#         "desc": "管理员认证",
+#     },
+#     "set_openai_api_key": {
+#         "alias": ["set_openai_api_key"],
+#         "args": ["api_key"],
+#         "desc": "设置你的OpenAI私有api_key",
+#     },
+#     "reset_openai_api_key": {
+#         "alias": ["reset_openai_api_key"],
+#         "desc": "重置为默认的api_key",
+#     },
+#     "id": {
+#         "alias": ["id", "用户"],
+#         "desc": "获取用户id",  # wechaty和wechatmp的用户id不会变化，可用于绑定管理员
+#     },
+#     "reset": {
+#         "alias": ["reset", "重置会话"],
+#         "desc": "重置会话",
+#     },
+# }
+#########暂时关闭所有指令#############
+COMMANDS = {}
 
 ADMIN_COMMANDS = {
     "resume": {

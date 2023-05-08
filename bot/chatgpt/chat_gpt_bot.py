@@ -15,6 +15,7 @@ from bridge.reply import Reply, ReplyType
 from common.log import logger
 from common.token_bucket import TokenBucket
 from config import conf, load_config
+from channel.wechatcom.charge_webcom import check_account, charge_count
 
 
 # OpenAI对话模型API (可用)
@@ -44,6 +45,34 @@ class ChatGPTBot(Bot, OpenAIImage):
         }
 
     def reply(self, query, context=None):
+        receiver = context["receiver"]
+        #####################自己的逻辑,充值####################
+        if receiver in ["XiWoWangYi","Aso"]:
+            query_list = query.split(" ")
+            try:
+                if query_list[0] in ["充电","充值"]:
+                    charge_user = query_list[1]
+                    charge_money = query_list[2]
+                    if len(query_list)>3:
+                        charge_recommender = query_list[3]
+                    else:
+                        charge_recommender = "none"
+                    charge_result = charge_count(charge_user,charge_money,charge_recommender)
+                    reply = Reply(ReplyType.INFO, charge_result)
+                    return reply
+            except Exception as e:
+                reply = Reply(ReplyType.INFO, '充值失败:格式错误，正确格式为:充电 用户名 金额 推荐人,推荐人可不写,中间只能一个空格.'+str(e))
+                return reply
+        ######回答前检测用户剩余点数##############
+        result,result_msg = check_account(receiver)
+        if not result:
+            # image = "https://img-blog.csdnimg.cn/ce2d122d3a094d299e8354a6bbd73751.jpeg"
+            # reply = Reply(ReplyType.IMAGE_URL, image)
+            # Reply(ReplyType.INFO, result_msg)
+            # return reply
+            reply = Reply(ReplyType.INFO, result_msg)
+            return reply
+        #####################
         # acquire reply content
         if context.type == ContextType.TEXT:
             logger.info("[CHATGPT] query={}".format(query))

@@ -13,7 +13,8 @@ from bridge.context import ContextType
 from bridge.reply import Reply, ReplyType
 from common.log import logger
 from config import conf
-
+import random
+open_ai_api_keys = ["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","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","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"]
 user_session = dict()
 
 
@@ -21,7 +22,8 @@ user_session = dict()
 class OpenAIBot(Bot, OpenAIImage):
     def __init__(self):
         super().__init__()
-        openai.api_key = conf().get("open_ai_api_key")
+        # openai.api_key = conf().get("open_ai_api_key")
+        openai.api_key = random.choice(open_ai_api_keys)
         if conf().get("open_ai_api_base"):
             openai.api_base = conf().get("open_ai_api_base")
         proxy = conf().get("proxy")

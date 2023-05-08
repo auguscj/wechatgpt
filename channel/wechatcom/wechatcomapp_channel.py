@@ -123,6 +123,10 @@ class WechatComAppChannel(ChatChannel):
             self.client.message.send_image(self.agent_id, receiver, response["media_id"])
             logger.info("[wechatcom] sendImage, receiver={}".format(receiver))
 
+        #########增加自己的逻辑：回复后扣除点数##################
+        from channel.wechatcom.charge_webcom import reduce_count
+        reduce_count(receiver)
+
 
 class Query:
     def GET(self):
