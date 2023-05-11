@@ -66,7 +66,7 @@ class ChatGPTBot(Bot, OpenAIImage):
         ######回答前检测用户剩余点数##############
         result,result_msg = check_account(receiver)
         if not result:
-            image = "https://img-blog.csdnimg.cn/ce2d122d3a094d299e8354a6bbd73751.jpeg"
+            image = "http://localhost:7777/"
             reply = Reply(ReplyType.IMAGE_URL, image)
             Reply(ReplyType.INFO, result_msg)
             return reply
