@@ -66,12 +66,12 @@ class ChatGPTBot(Bot, OpenAIImage):
         ######回答前检测用户剩余点数##############
         result,result_msg = check_account(receiver)
         if not result:
-            # image = "https://img-blog.csdnimg.cn/ce2d122d3a094d299e8354a6bbd73751.jpeg"
-            # reply = Reply(ReplyType.IMAGE_URL, image)
-            # Reply(ReplyType.INFO, result_msg)
-            # return reply
-            reply = Reply(ReplyType.INFO, result_msg)
+            image = "https://img-blog.csdnimg.cn/ce2d122d3a094d299e8354a6bbd73751.jpeg"
+            reply = Reply(ReplyType.IMAGE_URL, image)
+            Reply(ReplyType.INFO, result_msg)
             return reply
+            # reply = Reply(ReplyType.INFO, result_msg)
+            # return reply
         #####################
         # acquire reply content
         if context.type == ContextType.TEXT:
@@ -141,7 +141,7 @@ class ChatGPTBot(Bot, OpenAIImage):
         """
         try:
             if conf().get("rate_limit_chatgpt") and not self.tb4chatgpt.get_token():
-                raise openai.error.RateLimitError("RateLimitError: rate limit exceeded")
+                raise openai.error.RateLimitError("RateLimitError: rate limit exceeded,please try again later")
             # if api_key == None, the default openai.api_key will be used
             response = openai.ChatCompletion.create(api_key=api_key, messages=session.messages, **self.args)
             # logger.info("[ChatGPT] reply={}, total_tokens={}".format(response.choices[0]['message']['content'], response["usage"]["total_tokens"]))

@@ -372,7 +372,7 @@ class Godcmd(Plugin):
                 trigger_prefix = conf().get("plugin_trigger_prefix", "$")
                 if trigger_prefix == "#":  # 跟插件聊天指令前缀相同，继续递交
                     return
-                ok, result = False, f"未知指令：{cmd}\n查看指令列表请输入#help \n"
+                ok, result = False, f"指令错误：{cmd}\n查看指令列表请输入#help \n"
 
             reply = Reply()
             if ok:

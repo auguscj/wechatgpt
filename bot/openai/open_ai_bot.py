@@ -16,13 +16,13 @@ from config import conf
 import random
 user_session = dict()
 
-
 # OpenAI对话模型API (可用)
 class OpenAIBot(Bot, OpenAIImage):
     def __init__(self):
         super().__init__()
-        openai.api_key = conf().get("open_ai_api_key")
-        # openai.api_key = random.choice(open_ai_api_keys)
+        # openai.api_key = conf().get("open_ai_api_key")
+        api_keys = conf().get("open_ai_api_key")
+        openai.api_key = random.choice(api_keys)
         if conf().get("open_ai_api_base"):
             openai.api_base = conf().get("open_ai_api_base")
         proxy = conf().get("proxy")
