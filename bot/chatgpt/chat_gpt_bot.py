@@ -16,14 +16,16 @@ from common.log import logger
 from common.token_bucket import TokenBucket
 from config import conf, load_config
 from channel.wechatcom.charge_webcom import check_account, charge_count
-
+import random
 
 # OpenAI对话模型API (可用)
 class ChatGPTBot(Bot, OpenAIImage):
     def __init__(self):
         super().__init__()
         # set the default api_key
-        openai.api_key = conf().get("open_ai_api_key")
+        # openai.api_key = conf().get("open_ai_api_key")
+        api_keys = conf().get("open_ai_api_key")
+        openai.api_key = random.choice(api_keys)
         if conf().get("open_ai_api_base"):
             openai.api_base = conf().get("open_ai_api_base")
         proxy = conf().get("proxy")
