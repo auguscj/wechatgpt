@@ -20,7 +20,7 @@ from common.singleton import singleton
 from common.utils import compress_imgfile, fsize, split_string_by_utf8_length
 from config import conf, subscribe_msg
 from voice.audio_convert import any_to_amr, split_audio
-
+from channel.wechatcom.charge_webcom import reduce_count
 MAX_UTF8_LEN = 2048
 
 
@@ -60,6 +60,8 @@ class WechatComAppChannel(ChatChannel):
                 self.client.message.send_text(self.agent_id, receiver, text)
                 if i != len(texts) - 1:
                     time.sleep(0.5)  # 休眠0.5秒，防止发送过快乱序
+            # 回复文字扣除一个点数
+            reduce_count(receiver,1)
             logger.info("[wechatcom] Do send text to {}: {}".format(receiver, reply_text))
         elif reply.type == ReplyType.VOICE:
             try:
@@ -106,6 +108,8 @@ class WechatComAppChannel(ChatChannel):
                 return
 
             self.client.message.send_image(self.agent_id, receiver, response["media_id"])
+            # 回复图片扣除5个点数
+            reduce_count(receiver,5)
             logger.info("[wechatcom] sendImage url={}, receiver={}".format(img_url, receiver))
         elif reply.type == ReplyType.IMAGE:  # 从文件读取图片
             image_storage = reply.content
@@ -121,11 +125,11 @@ class WechatComAppChannel(ChatChannel):
                 logger.error("[wechatcom] upload image failed: {}".format(e))
                 return
             self.client.message.send_image(self.agent_id, receiver, response["media_id"])
+            # 回复图片扣除一个点数
+            reduce_count(receiver, 5)
             logger.info("[wechatcom] sendImage, receiver={}".format(receiver))
 
-        #########增加自己的逻辑：回复后扣除点数##################
-        from channel.wechatcom.charge_webcom import reduce_count
-        reduce_count(receiver)
+
 
 
 class Query:

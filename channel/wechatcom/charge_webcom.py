@@ -10,7 +10,7 @@ def check_count(username):
     left_count = userinfo[2]
 
 
-    errMsg1 = "您余额不足啦,需要充值次数后方可使用,谢谢,充值10元50次,50元400次,100元1000次,有效期均为一年,充值给微信号bot-chat-gpt发红包即可。如果您推荐他人也充值,您可以获得他充值点数的20%,比如他充值10块,您作为推荐人可以获得50*0.2次免费回答。"
+    errMsg1 = "您余额不足啦,需要充值次数后方可使用,谢谢,充值10元50次,50元400次,100元1000次,有效期均为一年。如果您推荐他人也充值,您可以获得他充值点数的20%,比如他充值10块,您作为推荐人可以获得50*0.2次免费回答。"
     if int(left_count)<=0:
         return False,errMsg1
     else:
@@ -20,7 +20,7 @@ def check_count(username):
         date = datetime.datetime.strptime(lastChargeDate, "%Y-%m-%d")
         today = datetime.datetime.today()
         diff = (today - date).days
-        errMsg2 = "您的充值已经超过一年,未使用的次数已经过期.需要重新充值次数后方可使用,谢谢,充值10元50次,50元400次,100元1000次,有效期均为一年,充值如果您用的是企业微信版本,可以给企业微信通讯录的客服发红包,或者添加微信号bot-chat-gpt发红包即可。如果您推荐他人也充值,您可以获得他充值点数的20%,比如他充值10块,您作为推荐人可以获得50*0.2次免费回答。"
+        errMsg2 = "您的充值已经超过一年,未使用的次数已经过期.需要重新充值次数后方可使用,谢谢,充值10元50次,50元400次,100元1000次,有效期均为一年。如果您推荐他人也充值,您可以获得他充值点数的20%,比如他充值10块,您作为推荐人可以获得50*0.2次免费回答。"
         if diff > 365:
             return False,errMsg2
         else:
@@ -28,7 +28,7 @@ def check_count(username):
 
 
 
-def reduce_count(username):
+def reduce_count(username,count=1):
     try:
         storage_str = redis_db.get(f"user:{username}")
         storage_str = str(storage_str, 'utf-8')
@@ -39,7 +39,7 @@ def reduce_count(username):
         registerDate = userinfo[4]
         recommender = userinfo[5]
         lastChargeDate = userinfo[6]
-        new_left_count = int(left_count)-1
+        new_left_count = int(left_count)-count
         if new_left_count<=0:
             new_left_count=0 # 以免出现负数
         storage_string = assemble_userinfo(username, password, new_left_count, usertype, registerDate, recommender,lastChargeDate)
