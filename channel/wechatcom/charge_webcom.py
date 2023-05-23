@@ -72,7 +72,7 @@ def reduce_count(username,count=1):
 
 def assemble_userinfo(username,password,count,userType,registerDate,recommender,lastChargeDate,chargeMoney,lastchargeMoney):
     # 组装用户string
-    storage_str = username + "|" + password + "|" + str(count) + "|"+userType+"|" + registerDate + "|"+recommender+"|"+lastChargeDate+"|"+chargeMoney+"|"+lastchargeMoney
+    storage_str = username + "|" + password + "|" + str(count) + "|"+userType+"|" + registerDate + "|"+recommender+"|"+lastChargeDate+"|"+str(chargeMoney)+"|"+str(lastchargeMoney)
     return storage_str
 
 def return_storage_userString_list(username):
