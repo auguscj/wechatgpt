@@ -1,4 +1,5 @@
 import datetime
+import math
 import random
 import redis
 redis_db = redis.StrictRedis(host="localhost", port=6379, password="")
@@ -25,7 +26,7 @@ def check_count(username):
     chargeMoney = int(userinfo[8])
 
     errMsg1 = "您余额不足啦,需要充值次数后方可使用,谢谢,充值10元50次,50元400次,100元1000次,有效期均为一年。如果您推荐他人也充值,您可以获得他充值点数的20%,比如他充值10块,您作为推荐人可以获得50*0.2次免费回答。"
-    if int(left_count)<=0:
+    if int(float(left_count))<=0:
         return False,errMsg1
     else:
         return True, "success"
